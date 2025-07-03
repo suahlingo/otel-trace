@@ -1,0 +1,64 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.4.1'
+	id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.innogrid.tabcloudit'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencyManagement {
+	imports {
+		mavenBom("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:2.17.0")
+		mavenBom("io.micrometer:micrometer-tracing-bom:1.5.1")
+	}
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	// 1) Spring Boot Starter를 통한 자동 계측 기능
+	implementation "io.opentelemetry.instrumentation:opentelemetry-spring-boot-starter"
+
+	// 2) Core API & SDK
+	implementation "io.opentelemetry:opentelemetry-api"
+	implementation "io.opentelemetry:opentelemetry-sdk"
+
+	// 3) OTLP Exporter (Tempo로 전송)
+	implementation "io.opentelemetry:opentelemetry-exporter-otlp"
+
+	// 4) (선택 사항) Trace Propagator 등
+	implementation "io.opentelemetry:opentelemetry-extension-trace-propagators"
+	implementation "io.opentelemetry:opentelemetry-exporter-logging" // 개발 중 Console 로그 확인 용
+
+	//micromiter
+	implementation "io.micrometer:micrometer-tracing"
+	implementation "io.micrometer:micrometer-tracing-bridge-otel"
+
+	//feign http
+	implementation 'io.github.openfeign:feign-micrometer:12.3'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

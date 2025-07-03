@@ -1,0 +1,20 @@
+server:
+  port: 18085
+spring:
+  application:
+    name: tracing
+
+otel:
+  exporter:
+    otlp:
+      endpoint: http://192.168.110.214:4317
+      compression: gzip
+      protocol: grpc
+  logs:
+    exporter: none
+  resource:
+    attributes:
+      service.name: test
+  instrumentation:
+    micrometer:
+      enabled: true
