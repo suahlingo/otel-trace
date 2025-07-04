@@ -22,6 +22,7 @@ bin/
 *.iws
 *.iml
 *.ipr
+*.yaml
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
@@ -34,4 +35,4 @@ out/
 /.nb-gradle/
 
 ### VS Code ###
-.vscode/
+.vscod

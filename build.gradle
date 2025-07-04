@@ -25,6 +25,7 @@ repositories {
 
 dependencyManagement {
 	imports {
+		mavenBom("io.opentelemetry:opentelemetry-bom:1.34.1")
 		mavenBom("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:2.17.0")
 		mavenBom("io.micrometer:micrometer-tracing-bom:1.5.1")
 	}
@@ -57,6 +58,13 @@ dependencies {
 
 	//feign http
 	implementation 'io.github.openfeign:feign-micrometer:12.3'
+
+	implementation "io.opentelemetry:opentelemetry-api-events"
+
+	implementation "io.opentelemetry:opentelemetry-exporter-otlp-metrics"
+	implementation "io.micrometer:micrometer-registry-otlp"
+	implementation "org.springframework.boot:spring-boot-starter-actuator"
+
 }
 
 tasks.named('test') {
